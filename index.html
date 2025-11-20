@@ -566,18 +566,33 @@
         document.getElementById('registrationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            // Get actual form values and trim whitespace
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const countryCode = document.getElementById('countryCode').value;
+            const phone = document.getElementById('phone').value.trim();
+            const fullPhone = countryCode + phone;
+
+            // Validate required fields
+            if (!firstName || !lastName || !email || !phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Build payload with actual form data
             const formData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                email: document.getElementById('email').value,
-                countryCode: document.getElementById('countryCode').value,
-                phone: document.getElementById('phone').value,
-                fullPhone: document.getElementById('countryCode').value + document.getElementById('phone').value,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                countryCode: countryCode,
+                phone: phone,
+                fullPhone: fullPhone,
                 registeredAt: new Date().toISOString(),
                 source: 'thanksgiving-simmer-pot-landing'
             };
 
-            console.log('Form submitted with data:', formData);
+            console.log('Form submitted with actual form data:', formData);
 
             try {
                 console.log('Sending webhook request...');
